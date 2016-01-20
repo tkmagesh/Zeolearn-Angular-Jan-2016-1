@@ -1,0 +1,23 @@
+Building Blocks of Angular
+
+1. Module
+    - A logical container for application components
+    - also a dependency injection container
+    
+2. Scope (UI)
+    - Tracks model changes and trigger the watcher subscriptions
+    
+3. Directive (UI)
+    - A component that connects HTML DOM with Scope
+    
+4. Filter (UI)
+    - To transform the data for presentation purposes
+    
+5. Controller (UI)
+    - Function to customize the scope object
+    
+6. Value
+7. Factory
+8. Service
+9. Constant
+10. Provider

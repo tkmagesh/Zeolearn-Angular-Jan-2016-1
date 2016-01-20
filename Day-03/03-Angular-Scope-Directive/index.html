@@ -51,20 +51,29 @@
 
 
     //UI (View / Controller)
-    $(document).ready(function(){
+    //$(document).ready(function(){
+   /* angular.element(document).ready(function(){
         angular.injector(["ng"]).invoke(function($rootScope, $compile){
-            window.scope = $rootScope;
             $compile(document.body)($rootScope);
+            $rootScope.calculator = new SalaryCalculator();
         });
-        scope.calculator = new SalaryCalculator();
-    });
+    });*/
 
+    var myAppModule = angular.module("myApp" , []);
+
+    myAppModule.run(function($rootScope){
+            window.rootScope = $rootScope;
+            $rootScope.name = "TopScope";
+        });
+    myAppModule.controller("calculatorController", function($scope){
+         $scope.calculator = new SalaryCalculator();
+    })
     </script>
 </head>
-<body>
+<body ng-app="myApp">
     <h1>Salary Calculator</h1>
     <hr>
-    <div class="content">
+    <div class="content" ng-controller="calculatorController">
         <div class="field">
             <label for="">Basic :</label>
             <input type="number" name="" id="txtBasic" ng-model="calculator.basic">
@@ -86,7 +95,7 @@
             <input type="button" value="Calculate" id="btnCalculate" ng-click="calculator.calculate()">
             <input type="button" value="Clear" id="btnClear" ng-click="calculator.clear()">
         </div>
-        <div id="divResult" ng-bind="calculator.salary">[Salary]</div>
+        <div id="divResult" ng-bind="calculator.salary | currency:'Rs'">[Salary]</div>
     </div>
 </body>
 </html>
