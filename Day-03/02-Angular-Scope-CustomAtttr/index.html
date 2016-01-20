@@ -40,6 +40,13 @@
         var subtotal = this.basic + this.hra + this.da;
         this.salary = subtotal * ((100-this.tax)/100);
     }
+    SalaryCalculator.prototype.clear = function(){
+        this.basic = 0;
+        this.hra = 0;
+        this.da = 0;
+        this.tax = 0;
+        this.salary = 0;
+    }
 
 
 
@@ -65,31 +72,26 @@
             scope.$watch(model, function(newValue, oldValue){
                 $element.val(newValue);
             });
-
         });
 
 
-
-
-        $("#btnCalculate").click(function(){
-            scope.$apply(function(){
-                scope.calculator.calculate();
+        $("*[app-click]").each(function(index, element){
+            var $element = $(element);
+            $element.click(function(){
+                var expr = $element.attr("app-click");
+                scope.$apply(function(){
+                    scope.$eval(expr);
+                });
             });
-
         });
 
-        //View reacting to model changes
-
-
-
-
-        scope.$watch('calculator.tax', function(newValue, oldValue){
-            $("#spanTax").html(newValue);
-        });
-        scope.$watch('calculator.salary', function(newValue, oldValue){
-            $("#divResult").html(newValue);
-        });
-
+        $("*[app-bind]").each(function(index, element){
+            var $element = $(element),
+                model = $element.attr("app-bind");
+            scope.$watch(model, function(newValue, oldValue){
+                $element.html(newValue);
+            });
+        })
     });
 
     </script>
@@ -113,12 +115,13 @@
         <div class="field">
             <label for="">Tax :</label>
             <input type="range" name="" id="rangeTax" min="0" max="30" value="0" app-model="calculator.tax">
-            <span id="spanTax">[Tax %]</span>
+            <span id="spanTax" app-bind="calculator.tax">[Tax %]</span>
         </div>
         <div class="field">
-            <input type="button" value="Calculate" id="btnCalculate">
+            <input type="button" value="Calculate" id="btnCalculate" app-click="calculator.calculate()">
+            <input type="button" value="Clear" id="btnClear" app-click="calculator.clear()">
         </div>
-        <div id="divResult">[Salary]</div>
+        <div id="divResult" app-bind="calculator.salary">[Salary]</div>
     </div>
 </body>
 </html>
