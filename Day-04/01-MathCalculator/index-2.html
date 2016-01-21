@@ -23,10 +23,13 @@
     <hr>
     <input type="number" ng-model="calculator.number1">
     <input type="number" ng-model="calculator.number2">
-    <input type="button" value="Add" ng-click="calculator.add()">
-    <input type="button" value="Subtract" ng-click="calculator.subtract()">
-    <input type="button" value="Multiply" ng-click="calculator.multiply()">
-    <input type="button" value="Divide" ng-click="calculator.divide()">
+    <select >
+        <option value="add">add</option>
+        <option value="subtract">subtract</option>
+        <option value="multiply">multiply</option>
+        <option value="divide">divide</option>
+    </select>
+    <input type="button" value="Calculate">
     <div class="result" ng-bind="calculator.result">[Result]</div>
 </body>
 </html>
