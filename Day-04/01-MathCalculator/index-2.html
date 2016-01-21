@@ -7,6 +7,12 @@
         .result{
             font-size: 20pt;
         }
+        .positive{
+            color : green;
+        }
+        .negative{
+            color : red;
+        }
     </style>
     <script src="angular.js"></script>
     <script src="MathCalculator.js"></script>
@@ -15,6 +21,27 @@
         var calculatorApp = angular.module("calculatorApp", []);
         calculatorApp.controller("calculatorController", function($scope){
             $scope.calculator = new MathCalculator();
+            $scope.userOperation = '';
+            $scope.calculate = function(){
+                /*switch ($scope.userOperation){
+                    case "add":
+                        $scope.calculator.add();
+                        break;
+                    case "subtract":
+                        $scope.calculator.subtract();
+                        break;
+                    case "multiply":
+                        $scope.calculator.multiply();
+                        break;
+                    case "divide":
+                        $scope.calculator.divide();
+                        break;
+                }*/
+                $scope.calculator[$scope.userOperation]();
+               /* $scope.resultStyle = {
+                    color : $scope.calculator.result > 0 ? 'green' : 'red'
+                };*/
+            };
         });
     </script>
 </head>
@@ -23,13 +50,22 @@
     <hr>
     <input type="number" ng-model="calculator.number1">
     <input type="number" ng-model="calculator.number2">
-    <select >
+    <select ng-model="userOperation" ng-change="calculate()">
         <option value="add">add</option>
         <option value="subtract">subtract</option>
         <option value="multiply">multiply</option>
         <option value="divide">divide</option>
     </select>
-    <input type="button" value="Calculate">
-    <div class="result" ng-bind="calculator.result">[Result]</div>
+    <input type="button" value="Calculate" ng-click="calculate()">
+    <!--<div class="result"
+        ng-bind="calculator.result"
+        ng-style="{color : (calculator.result > 0 ? 'green' : 'red')}"
+        ng-show="calculator.number1 > 0 && calculator.number2 > 0"
+        >[Result]</div>-->
+    <div class="result"
+        ng-bind="calculator.result"
+        ng-class="{positive : calculator.result > 0, negative : calculator.result <= 0}"
+        ng-show="calculator.number1 > 0 && calculator.number2 > 0"
+        >[Result]</div>
 </body>
 </html>
