@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bug Tracker</title>
+  <meta name="description" content="A sample application for learning Angular.js">
+  <meta name="author" content="Magesh K">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+ <!--
+    Use Cases
+    =========
+     1. Add a new bug
+     2. List the bugs
+     3. Toggle the closed status of the bug
+     4. Remove closed bugs
+     5. Display statistics ( number of closed bugs / total number of bugs)
+     6. Search the bugs
+     7. Sort the bugs
+     8. Improve the bug display
+     9. Persist the bugs in localStorage
+     10. Display 'createdAt' (when the bug is created)
+     11. Persist bugs in the server (REST api communication)
+
+     ---------
+     12. Categorize the bugs (Project, Severity)
+     13. Authentication & Authorization
+     14. Validation
+ -->
+     <style>
+         .closed{
+             color : red;
+             text-decoration: line-through;
+             font-style: italic;
+             font-weight: bold;
+         }
+         ol{
+             list-style: none;
+         }
+         li{
+             cursor: pointer;
+             border : 1px solid gray;
+             background-color : #e7e7e7;
+             padding : 2px;
+             border-radius: 4px;
+         }
+    </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="twelve columns" style="margin-top: 5%">
+        <h4>Bug Tracker</h4>
+        <fieldset>
+            <legend>Statistics</legend>
+            <span class="closed">2</span>
+            <span> / </span>
+            <span>5</span>
+        </fieldset>
+      </div>
+      <div class="twelve columns">
+          <label for="">Bug :</label>
+          <input type="text" name="" id="">
+          <input class="button-primary" type="button" value="Add Bug">
+          <input type="button" value="Remove Closed">
+      </div>
+      <div class="twelve columns">
+          <label for="">List :</label>
+          <ol class="six columns">
+              <li class="closed">This is a closed bug</li>
+              <li>This is an open bug</li>
+          </ol>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
