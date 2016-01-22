@@ -16,10 +16,10 @@
      1. Add a new bug - done
      2. List the bugs - done
      3. Toggle the closed status of the bug - done
-     4. Remove closed bugs
-     5. Display statistics ( number of closed bugs / total number of bugs)
-     6. Search the bugs
-     7. Sort the bugs
+     4. Remove closed bugs - done
+     5. Display statistics ( number of closed bugs / total number of bugs) - done
+     6. Search the bugs - done
+     7. Sort the bugs (use 'orderby' filter)
      8. Improve the bug display
      9. Persist the bugs in localStorage
      10. Display 'createdAt' (when the bug is created)
@@ -53,7 +53,12 @@
     <script>
         var bugTrackerApp = angular.module("bugTrackerApp", []);
         bugTrackerApp.controller("bugsController", function($scope){
-            $scope.bugs = [];
+            $scope.bugs = [
+                {name : 'User authentication breaks', isClosed : false},
+                {name : 'Server communication disrupts', isClosed : false},
+                {name : 'Object reference not found error', isClosed : true}
+            ];
+
             $scope.newBugName = '';
             $scope.addNew = function(){
                 var newBug = {
@@ -72,6 +77,15 @@
                         $scope.bugs.splice(i,1);
                 }
             };
+            $scope.getClosedCount = function(){
+                var closedCount = 0;
+                for(var i=$scope.bugs.length-1; i>=0; i--){
+                    var bug = $scope.bugs[i];
+                    if (bug.isClosed)
+                        ++closedCount;
+                }
+                return closedCount;
+            };
         });
     </script>
 </head>
@@ -83,9 +97,29 @@
         <h4>Bug Tracker</h4>
         <fieldset>
             <legend>Statistics</legend>
-            <span class="closed">2</span>
+            <span class="closed">{{getClosedCount()}}</span>
             <span> / </span>
             <span>{{bugs.length}}</span>
+        </fieldset>
+      </div>
+      <div class="twelve columns">
+        <fieldset>
+            <legend>Search</legend>
+            <span for="">Name :</span>
+            <input type="text" ng-model="searchBug" >
+            <span for="">Is Closed ? :</span>
+            <input type="checkbox" ng-model="searchBugStatus">
+            <input type="button" value="Show All" ng-click="searchBugStatus = undefined">
+        </fieldset>
+      </div>
+      <div class="twelve columns">
+        <fieldset>
+            <legend>Sort</legend>
+            <span for="">By :</span>
+            <input type="text">
+            <span for="">Descending ? :</span>
+            <input type="checkbox" >
+
         </fieldset>
       </div>
       <div class="twelve columns">
@@ -97,7 +131,11 @@
       <div class="twelve columns">
           <label ng-show="bugs.length > 0">List :</label>
           <ol class="six columns">
-              <li ng-repeat="bug in bugs" ng-click="toggleBug(bug)" ng-class="{closed : bug.isClosed}">{{bug}}</li>
+              <li ng-repeat="bug in (bugs | filter:{name : searchBug, isClosed : searchBugStatus} )"
+                  ng-click="toggleBug(bug)"
+                  ng-class="{closed : bug.isClosed}">
+                  {{bug.name | lowercase}}
+              </li>
           </ol>
 
       </div>
