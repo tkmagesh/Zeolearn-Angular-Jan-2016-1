@@ -79,39 +79,66 @@
             return Bug;
         });
 
-        bugTrackerApp.controller("bugsController", function($scope, Bug){
+        bugTrackerApp.factory("bugStorage", function(Bug){
             var maxBugId = 0;
-            $scope.bugs = [];
 
-            for(var i=0; i<window.localStorage.length; i++){
-                var key = window.localStorage.key(i);
-                var bugAsJson = window.localStorage.getItem(key);
-                var bugData = angular.fromJson(bugAsJson);
-                var bug = new Bug(bugData);
-                maxBugId = bug.id > maxBugId ? bug.id : maxBugId;
-                $scope.bugs.push(bug);
+            function getAllBugs(){
+                var result = [];
+                for(var i=0; i<window.localStorage.length; i++){
+                    var key = window.localStorage.key(i);
+                    var bugAsJson = window.localStorage.getItem(key);
+                    var bugData = angular.fromJson(bugAsJson);
+                    var bug = new Bug(bugData);
+                    maxBugId = bug.id > maxBugId ? bug.id : maxBugId;
+                    result.push(bug);
+                }
+                return result;
             }
 
-            $scope.newBugName = '';
-            $scope.addNew = function(){
+            function addBug(bugName){
                 var newBug = new Bug({
                     id : ++maxBugId,
-                    name : $scope.newBugName,
+                    name : bugName,
                 });
-                window.localStorage.setItem(newBug.id, angular.toJson(newBug));
+
+                saveBug(newBug);
+                return newBug;
+            }
+            function saveBug(bug){
+                 window.localStorage.setItem(bug.id, angular.toJson(bug));
+            }
+
+            function removeBug(bug){
+                window.localStorage.removeItem(bug.id);
+            }
+
+            return {
+                getAll : getAllBugs,
+                add : addBug,
+                save : saveBug,
+                remove : removeBug
+            };
+
+        });
+
+        bugTrackerApp.controller("bugsController", function($scope, bugStorage){
+
+            $scope.bugs = bugStorage.getAll();
+            $scope.newBugName = '';
+            $scope.addNew = function(){
+                var newBug = bugStorage.add($scope.newBugName);
                 $scope.bugs.push(newBug);
             };
             $scope.toggleBug = function(bug){
-                //bug.isClosed = !bug.isClosed;
                 bug.toggle();
-                window.localStorage.setItem(bug.id, angular.toJson(bug));
+                bugStorage.save(bug);
             };
             $scope.removeClosed = function(){
                 for(var i=$scope.bugs.length-1; i>=0; i--){
                     var bug = $scope.bugs[i];
                     if (bug.isClosed){
                         $scope.bugs.splice(i,1);
-                        window.localStorage.removeItem(bug.id);
+                        bugStorage.remove(bug);
                     }
                 }
             };
