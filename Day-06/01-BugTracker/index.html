@@ -65,13 +65,12 @@
             return Bug;
         });
 
-
-
         bugTrackerApp.controller("bugsController", function($scope, Bug){
             $scope.bugs = [
                 new Bug({name : 'User authentication breaks', isClosed : false}),
                 new Bug({name : 'Server communication disrupts', isClosed : false}),
                 new Bug({name : 'Object reference not found error', isClosed : true}),
+                new Bug({name : 'This is a very long bug to demonstrate the need to tidy up the UI so that the user will enjoy accessing the application', isClosed : true}),
             ];
 
             $scope.newBugName = '';
@@ -103,6 +102,13 @@
                 return closedCount;
             };
         });
+
+        bugTrackerApp.filter("trimText", function(){
+            return function (data){
+                return data.length < 30 ? data : data.substr(0,30) + '...';
+            };
+        });
+
     </script>
 </head>
 <body ng-app="bugTrackerApp">
@@ -150,7 +156,7 @@
               <li ng-repeat="bug in (bugs | filter:{name : searchBug, isClosed : searchBugStatus} | orderBy:sortBugBy:sortBugOrder)"
                   ng-click="toggleBug(bug)"
                   ng-class="{closed : bug.isClosed}">
-                  {{bug.name | lowercase}}
+                  {{bug.name | trimText }}
               </li>
           </ol>
 
