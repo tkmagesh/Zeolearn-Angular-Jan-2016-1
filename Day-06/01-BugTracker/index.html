@@ -20,8 +20,21 @@
      5. Display statistics ( number of closed bugs / total number of bugs) - done
      6. Search the bugs - done
      7. Sort the bugs (use 'orderby' filter) - done
-     8. Improve the bug display
+     8. Improve the bug display - done
+
      9. Persist the bugs in localStorage
+         window.localStorage
+             - key/value store
+             - both key and value should be string
+             - APIs
+                 - setItem(key, value)
+                 - getItem(key) //=> value
+                 - removeItem(key)
+                 - key(index) //=> key at index
+                 - clear()
+                 - length
+            Use angular.toJson() and angular.fromJson() for serialization and deserialization respectively
+
      10. Display 'createdAt' (when the bug is created)
      11. Persist bugs in the server (REST api communication)
 
@@ -56,6 +69,7 @@
         bugTrackerApp.factory("Bug", function(){
             function Bug(defautls){
                 defaults = defautls || {};
+                this.id = defautls.id || 0;
                 this.name = defaults.name || '';
                 this.isClosed = defaults.isClosed || false;
             }
@@ -66,33 +80,41 @@
         });
 
         bugTrackerApp.controller("bugsController", function($scope, Bug){
-            $scope.bugs = [
-                new Bug({name : 'User authentication breaks', isClosed : false}),
-                new Bug({name : 'Server communication disrupts', isClosed : false}),
-                new Bug({name : 'Object reference not found error', isClosed : true}),
-                new Bug({name : 'This is a very long bug to demonstrate the need to tidy up the UI so that the user will enjoy accessing the application', isClosed : true}),
-            ];
+            var maxBugId = 0;
+            $scope.bugs = [];
+
+            for(var i=0; i<window.localStorage.length; i++){
+                var key = window.localStorage.key(i);
+                var bugAsJson = window.localStorage.getItem(key);
+                var bugData = angular.fromJson(bugAsJson);
+                var bug = new Bug(bugData);
+                maxBugId = bug.id > maxBugId ? bug.id : maxBugId;
+                $scope.bugs.push(bug);
+            }
 
             $scope.newBugName = '';
             $scope.addNew = function(){
-                var newBug = {
+                var newBug = new Bug({
+                    id : ++maxBugId,
                     name : $scope.newBugName,
-                    isClosed : false
-                };
+                });
+                window.localStorage.setItem(newBug.id, angular.toJson(newBug));
                 $scope.bugs.push(newBug);
             };
             $scope.toggleBug = function(bug){
                 //bug.isClosed = !bug.isClosed;
                 bug.toggle();
+                window.localStorage.setItem(bug.id, angular.toJson(bug));
             };
             $scope.removeClosed = function(){
                 for(var i=$scope.bugs.length-1; i>=0; i--){
                     var bug = $scope.bugs[i];
-                    if (bug.isClosed)
+                    if (bug.isClosed){
                         $scope.bugs.splice(i,1);
+                        window.localStorage.removeItem(bug.id);
+                    }
                 }
             };
-            //$scope.getClosedCount = ;
         });
 
         bugTrackerApp.filter("trimText", function(){
