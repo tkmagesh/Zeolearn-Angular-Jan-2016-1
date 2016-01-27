@@ -122,7 +122,8 @@
         });
 
         bugTrackerApp.service("bugsCollection", function(bugStorage){
-            this.list = bugStorage.getAll();
+            this.bugs = bugStorage.getAll();
+
             this.addNew = function(newBugName){
                 var newBug = bugStorage.add(newBugName);
                 this.list.push(newBug);
@@ -145,7 +146,7 @@
         })
 
         bugTrackerApp.controller("bugsController", function($scope, bugsCollection){
-            $scope.bugs = bugsCollection;
+            $scope.bugsCollection = bugsCollection;
         });
 
         bugTrackerApp.filter("trimText", function(){
@@ -176,9 +177,9 @@
         <h4>Bug Tracker</h4>
         <fieldset>
             <legend>Statistics</legend>
-            <span class="closed">{{bugs.list | closedCount}}</span>
+            <span class="closed">{{bugsCollection.bugs | closedCount}}</span>
             <span> / </span>
-            <span>{{bugs.list.length}}</span>
+            <span>{{bugsCollection.bugs.length}}</span>
         </fieldset>
       </div>
       <div class="twelve columns">
@@ -208,10 +209,10 @@
           <input type="button" value="Remove Closed" ng-click="bugs.removeClosed()">
       </div>
       <div class="twelve columns">
-          <label ng-show="bugs.list.length > 0">List :</label>
+          <label ng-show="bugsCollection.bugs.length > 0">List :</label>
           <ol class="six columns">
-              <li ng-repeat="bug in (bugs.list | filter:{name : searchBug, isClosed : searchBugStatus} | orderBy:sortBugBy:sortBugOrder)"
-                  ng-click="bugs.toggleBug(bug)"
+              <li ng-repeat="bug in (bugsCollection.bugs | filter:{name : searchBug, isClosed : searchBugStatus} | orderBy:sortBugBy:sortBugOrder)"
+                  ng-click="bugsCollection.toggleBug(bug)"
                   ng-class="{closed : bug.isClosed}">
                   {{bug.name | trimText }}
               </li>
