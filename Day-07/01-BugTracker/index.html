@@ -126,7 +126,7 @@
 
             this.addNew = function(newBugName){
                 var newBug = bugStorage.add(newBugName);
-                this.list.push(newBug);
+                this.bugs.push(newBug);
             };
             this.toggleBug = function(bug){
                 bug.toggle();
@@ -134,10 +134,10 @@
             };
 
             this.removeClosed = function(){
-                for(var i=this.list.length-1; i>=0; i--){
-                    var bug = this.list[i];
+                for(var i=this.bugs.length-1; i>=0; i--){
+                    var bug = this.bugs[i];
                     if (bug.isClosed){
-                        this.list.splice(i,1);
+                        this.bugs.splice(i,1);
                         bugStorage.remove(bug);
                     }
                 }
