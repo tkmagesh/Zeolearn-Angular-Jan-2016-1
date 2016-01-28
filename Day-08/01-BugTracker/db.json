@@ -1,8 +1,13 @@
 {
   "bugs": [
     {
-      "id": 3,
-      "name": "User authentication is wrong",
+      "id": 4,
+      "name": "Server communication failure",
+      "isClosed": false
+    },
+    {
+      "id": 5,
+      "name": "Data persistence is not interminent",
       "isClosed": false
     }
   ]
