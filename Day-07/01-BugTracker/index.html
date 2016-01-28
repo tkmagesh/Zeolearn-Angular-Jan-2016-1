@@ -205,8 +205,8 @@
       <div class="twelve columns">
           <label for="">Bug :</label>
           <input type="text" ng-model="newBugName">
-          <input class="button-primary" type="button" value="Add Bug" ng-click="bugs.addNew(newBugName)">
-          <input type="button" value="Remove Closed" ng-click="bugs.removeClosed()">
+          <input class="button-primary" type="button" value="Add Bug" ng-click="bugsCollection.addNew(newBugName)">
+          <input type="button" value="Remove Closed" ng-click="bugsCollection.removeClosed()">
       </div>
       <div class="twelve columns">
           <label ng-show="bugsCollection.bugs.length > 0">List :</label>
