@@ -81,6 +81,8 @@
 
 
         bugTrackerApp.controller("bugsController", function($scope, $http, Bug){
+
+            //Retrieving bugs from server
             var promise = $http.get('http://localhost:3000/bugs');
             promise.then(function(response){
                 $scope.bugs = response.data.map(function(bugData){
@@ -88,14 +90,34 @@
                 });
             });
 
+            //Creating new bug in the server
             $scope.addNew = function(newBugName){
                 var newBug = new Bug({name : newBugName});
-                //$http
-            }
+                $http
+                    .post('http://localhost:3000/bugs', newBug)
+                    .then(function(response){
+                        $scope.bugs.push(new Bug(response.data));
+                    });
+            };
 
             $scope.toggleBug = function(bug){
                 bug.toggle();
+                $http.put('http://localhost:3000/bugs/' + bug.id, bug);
             };
+
+            $scope.removeClosed = function(){
+                $scope
+                    .bugs
+                    .filter(function(bug){
+                        return bug.isClosed;
+                    })
+                    .forEach(function(bug){
+                        $http.delete('http://localhost:3000/bugs/' + bug.id);
+                    });
+                $scope.bugs = $scope.bugs.filter(function(bug){
+                    return !bug.isClosed;
+                });
+            }
         });
 
         bugTrackerApp.filter("trimText", function(){
@@ -156,7 +178,7 @@
           <label for="">Bug :</label>
           <input type="text" ng-model="newBugName">
           <input class="button-primary" type="button" value="Add Bug" ng-click="addNew(newBugName)">
-          <input type="button" value="Remove Closed" ng-click="bugsCollection.removeClosed()">
+          <input type="button" value="Remove Closed" ng-click="removeClosed()">
       </div>
       <div class="twelve columns">
           <label ng-show="bugsCollection.bugs.length > 0">List :</label>
