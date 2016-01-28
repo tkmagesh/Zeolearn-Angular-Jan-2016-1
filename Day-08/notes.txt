@@ -1,0 +1,25 @@
+Data as a resource
+    -> URL (Unversal Resource Locator)
+    
+http://localhost/api/products
+http://localhost/api/products/1
+
+Operations - Http Methods
+Select - GET
+Insert - POST
+Update (full) - PUT
+Update (partial) - PATCH
+delete - DELETE
+exists  - HEAD
+
+HTTP status codes
+200 OK
+201 Created
+404 Not Found
+403 Forbidden
+302 Object Moved
+500 Server Error
+
+Start -> All Programs -> nodejs -> node.js command prompt
+
+npm    install    json-server    -g
