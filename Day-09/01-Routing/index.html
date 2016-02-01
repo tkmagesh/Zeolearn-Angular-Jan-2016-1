@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyKart.com</title>
+    <script src="angular.min.js"></script>
+    <script src="angular-route.js"></script>
+    <script>
+        var myKartApp = angular.module("myKartApp", ["ngRoute"]);
+        myKartApp.config(function($routeProvider){
+            $routeProvider
+                .when("/products", {
+                    template : '<h2>Products</h2>'
+                })
+                .when("/customers", {
+                    template : '<h2>Customers</h2>'
+                })
+                .otherwise({
+                    redirectTo : "/products"
+                });
+        });
+        myKartApp.run(function(){
+            console.log("App in run stage")
+        });
+    </script>
+</head>
+<body ng-app="myKartApp">
+    <h1>MyKart.com</h1>
+    <section class="heading">
+        <a href="#/products">Products</a>
+        <a href="#/customers">Customers</a>
+    </section>
+    <hr>
+    <div ng-view>
+
+    </div>
+</body>
+</html>
