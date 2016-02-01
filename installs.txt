@@ -1,0 +1,21 @@
+Node.js (from http://nodejs.org)
+Some editor (Visual Studio / Brackets / notepad++)
+
+Web Server
+=========
+installation -> npm install http-server -g
+run -> http-server -c -1
+
+Json Server
+============
+installation -> npm install json-server -g
+run -> json-server db.json
+
+CSS Framework
+=============
+http://getskeleton.com
+
+ng-inspector
+=============
+http://ng-inspector.org/
+
