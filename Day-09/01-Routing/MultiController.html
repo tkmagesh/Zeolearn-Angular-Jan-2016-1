@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="angular.min.js"></script>
+    <script>
+        var myApp = angular.module("myApp", []);
+        myApp.controller("parentController", function($scope){
+            $scope.name = '';
+            $scope.setName = function(name){
+                $scope.name = name;
+            };
+        });
+        myApp.controller("inputController", function($scope){
+            $scope.firstName = '';
+            $scope.lastName = '';
+            $scope.setNames = function(){
+                var name = $scope.firstName + '  ' + $scope.lastName;
+                $scope.setName(name);
+            };
+        });
+
+        myApp.controller("outputController", function($scope){
+            $scope.message = '';
+            $scope.greet = function(){
+                $scope.message = 'Hi ' + $scope.name + ', Have a nice day!';
+            }
+        });
+    </script>
+</head>
+<body ng-app="myApp">
+    <div ng-controller="parentController">
+        <h1>Greeting App</h1>
+        <div ng-controller="inputController">
+            <div>
+                <label for="">First Name :</label>
+                <input type="text" ng-model="firstName">
+            </div>
+            <div>
+                <label for="">Last Name :</label>
+                <input type="text" ng-model="lastName">
+            </div>
+            <div>
+                <input type="button" value="Set Name" ng-click="setNames()">
+            </div>
+        </div>
+        <hr>
+        <div ng-controller="outputController">
+            <input type="button" value="Greet" ng-click="greet()">
+            <div>{{message}}</div>
+        </div>
+    </div>
+</body>
+</html>
