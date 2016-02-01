@@ -10,14 +10,30 @@
         myKartApp.config(function($routeProvider){
             $routeProvider
                 .when("/products", {
-                    template : '<h2>Products</h2>'
+                    /*template : '<h2>Products</h2>'*/
+                    templateUrl : 'templates/productsTemplate.html',
+                    controller : 'productsController'
                 })
                 .when("/customers", {
-                    template : '<h2>Customers</h2>'
+                    /*template : '<h2>Customers</h2>'*/
+                templateUrl : 'templates/customersTemplate.html'
                 })
                 .otherwise({
                     redirectTo : "/products"
                 });
+        });
+        myKartApp.service("productsService", function(){
+            this.getAll = function(){
+                return [
+                    {id : 1, name : "Pen", cost : 5, units : 100, desc : "Ne duis duis te eiusmod ex qui dolore arbitrantur ubi sunt ingeniis ex legam nisi nam multos graviterque excepteur dolore mandaremus, arbitror se illum laboris est cernantur relinqueret ut admodum, deserunt quem mandaremus, o ne noster cupidatat. Quo cupidatat o deserunt, ut ipsum quibusdam eruditionem aut non ipsum laboris admodum, incididunt et voluptate non sint voluptate e domesticarum non ad labore dolor ab voluptate, ea elit ut quae, fabulas tamen sed proident comprehenderit. Ne magna voluptatibus. Noster proident cohaerescant, quem a de irure occaecat, ea irure qui culpa an ne illum noster multos vidisse, fugiat e admodum, in dolore transferrem, iudicem summis quae possumus quae, de quibusdam praetermissum. Iis magna litteris coniunctione."},
+                    {id : 2, name : "Hen", cost : 50, units : 20, desc : "Ne duis duis te eiusmod ex qui dolore arbitrantur ubi sunt ingeniis ex legam nisi nam multos graviterque excepteur dolore mandaremus, arbitror se illum laboris est cernantur relinqueret ut admodum, deserunt quem mandaremus, o ne noster cupidatat. Quo cupidatat o deserunt, ut ipsum quibusdam eruditionem aut non ipsum laboris admodum, incididunt et voluptate non sint voluptate e domesticarum non ad labore dolor ab voluptate, ea elit ut quae, fabulas tamen sed proident comprehenderit. Ne magna voluptatibus. Noster proident cohaerescant, quem a de irure occaecat, ea irure qui culpa an ne illum noster multos vidisse, fugiat e admodum, in dolore transferrem, iudicem summis quae possumus quae, de quibusdam praetermissum. Iis magna litteris coniunctione."},
+                    {id : 3, name : "Ten", cost : 10, units : 10, desc : "Ne duis duis te eiusmod ex qui dolore arbitrantur ubi sunt ingeniis ex legam nisi nam multos graviterque excepteur dolore mandaremus, arbitror se illum laboris est cernantur relinqueret ut admodum, deserunt quem mandaremus, o ne noster cupidatat. Quo cupidatat o deserunt, ut ipsum quibusdam eruditionem aut non ipsum laboris admodum, incididunt et voluptate non sint voluptate e domesticarum non ad labore dolor ab voluptate, ea elit ut quae, fabulas tamen sed proident comprehenderit. Ne magna voluptatibus. Noster proident cohaerescant, quem a de irure occaecat, ea irure qui culpa an ne illum noster multos vidisse, fugiat e admodum, in dolore transferrem, iudicem summis quae possumus quae, de quibusdam praetermissum. Iis magna litteris coniunctione."},
+                    {id : 4, name : "Zen", cost : 100000, units : 0, desc : "Ne duis duis te eiusmod ex qui dolore arbitrantur ubi sunt ingeniis ex legam nisi nam multos graviterque excepteur dolore mandaremus, arbitror se illum laboris est cernantur relinqueret ut admodum, deserunt quem mandaremus, o ne noster cupidatat. Quo cupidatat o deserunt, ut ipsum quibusdam eruditionem aut non ipsum laboris admodum, incididunt et voluptate non sint voluptate e domesticarum non ad labore dolor ab voluptate, ea elit ut quae, fabulas tamen sed proident comprehenderit. Ne magna voluptatibus. Noster proident cohaerescant, quem a de irure occaecat, ea irure qui culpa an ne illum noster multos vidisse, fugiat e admodum, in dolore transferrem, iudicem summis quae possumus quae, de quibusdam praetermissum. Iis magna litteris coniunctione."}
+                ]
+            };
+        });
+        myKartApp.controller("productsController", function($scope, productsService){
+            $scope.products = productsService.getAll();
         });
         myKartApp.run(function(){
             console.log("App in run stage")
