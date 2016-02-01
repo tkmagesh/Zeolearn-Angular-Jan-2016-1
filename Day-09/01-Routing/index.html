@@ -14,6 +14,10 @@
                     templateUrl : 'templates/productsTemplate.html',
                     controller : 'productsController'
                 })
+                .when("/products/:id", {
+                    templateUrl : 'templates/productInfoTemplate.html',
+                    controller : 'productInfoController'
+                })
                 .when("/customers", {
                     /*template : '<h2>Customers</h2>'*/
                 templateUrl : 'templates/customersTemplate.html'
@@ -31,9 +35,18 @@
                     {id : 4, name : "Zen", cost : 100000, units : 0, desc : "Ne duis duis te eiusmod ex qui dolore arbitrantur ubi sunt ingeniis ex legam nisi nam multos graviterque excepteur dolore mandaremus, arbitror se illum laboris est cernantur relinqueret ut admodum, deserunt quem mandaremus, o ne noster cupidatat. Quo cupidatat o deserunt, ut ipsum quibusdam eruditionem aut non ipsum laboris admodum, incididunt et voluptate non sint voluptate e domesticarum non ad labore dolor ab voluptate, ea elit ut quae, fabulas tamen sed proident comprehenderit. Ne magna voluptatibus. Noster proident cohaerescant, quem a de irure occaecat, ea irure qui culpa an ne illum noster multos vidisse, fugiat e admodum, in dolore transferrem, iudicem summis quae possumus quae, de quibusdam praetermissum. Iis magna litteris coniunctione."}
                 ]
             };
+            this.getProductById = function(id){
+                return this.getAll().filter(function(product){
+                    return product.id === id;
+                })[0];
+            };
         });
         myKartApp.controller("productsController", function($scope, productsService){
             $scope.products = productsService.getAll();
+        });
+        myKartApp.controller("productInfoController", function($scope, $routeParams, productsService){
+            var productId = parseInt($routeParams.id);
+            $scope.product = productsService.getProductById(productId);
         });
         myKartApp.run(function(){
             console.log("App in run stage")
