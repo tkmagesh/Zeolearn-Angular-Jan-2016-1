@@ -1,0 +1,28 @@
+1. Package.json
+    manifest file
+        author
+        name 
+        version
+        liscence
+        dependencies
+        
+2. Jasmine
+    (http://jasmine.github.io/edge/introduction.html)
+    - Testing framework
+        write tests (describe, it)
+        expect - api for assertions
+        jasmine spy -  mocking
+        
+3. Karma
+    - framework for executing tests
+    - run tests on different browsers
+
+4. Protractor
+    - framework for Browser testing
+    
+5. bower
+    - manage clientside dependency for the application (angular, jquery etc)
+    
+Steps 
+in the folder where the package.json
+    run the command "npm install"
